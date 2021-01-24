@@ -17,12 +17,26 @@ pipeline {
   }
 
   //Aquí comienzan los “items” del Pipeline
+  //Aquí comienzan los “items” del Pipeline
   stages{
-    stage('Checkout') {
-      steps{
-        echo "------------>Checkout<------------"
-      }
-    }
+    stage('Checkout'){
+		steps{
+			echo "------------>Checkout<------------"
+			checkout([
+			$class: 'GitSCM', 
+			branches: [[name: '*/master']], 
+			doGenerateSubmoduleConfigurations: false, 
+			extensions: [], 
+			gitTool: 'Default', 
+			submoduleCfg: [], 
+			userRemoteConfigs: [[
+			credentialsId: 'GitHub_silopez', 
+			url:'https://github.com/silopez/demo'
+			]]
+			])
+		}
+	}
+
     
     stage('Compile & Unit Tests') {
       steps{
